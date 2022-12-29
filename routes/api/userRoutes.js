@@ -9,15 +9,10 @@ const {
 } = require('../../controllers/studentController');
 
 // /api/students
-router.route('/').get(getStudents).post(createStudent);
-
+router.route("/").get(getAllUsers).post(createUser);
 // /api/students/:studentId
-router.route('/:studentId').get(getSingleStudent).delete(deleteStudent);
-
+router.route("/:userId").get(getUser).put(updateUser).delete(deleteUser);
 // /api/students/:studentId/assignments
-router.route('/:studentId/assignments').post(addAssignment);
-
 // /api/students/:studentId/assignments/:assignmentId
-router.route('/:studentId/assignments/:assignmentId').delete(removeAssignment);
-
+router.route("/:userId/friends/:friendId").post(addFriend).delete(removeFriend);
 module.exports = router;

@@ -1,42 +1,28 @@
 const connection = require('../config/connection');
-const { Course, Student } = require('../models');
-const { getRandomName, getRandomAssignments } = require('./data');
+const { user, thoughts, reactions } = require('../models');
 
 connection.on('error', (err) => err);
 
 connection.once('open', async () => {
   console.log('connected');
 
-  // Drop existing courses
-  await Course.deleteMany({});
+  // Drop existing users
+  await user.deleteMany({});
+  await thoughts.deleteMany({});
+  // Drop existing thoughts
+  await thoughts.deleteMany({});
 
-  // Drop existing students
-  await Student.deleteMany({});
-
-  // Create empty array to hold the students
-  const students = [];
-
-  // Loop 20 times -- add students to the students array
-  for (let i = 0; i < 20; i++) {
-    // Get some random assignment objects using a helper function that we imported from ./data
-    const assignments = getRandomAssignments(20);
-
-    const fullName = getRandomName();
-    const first = fullName.split(' ')[0];
-    const last = fullName.split(' ')[1];
-    const github = `${first}${Math.floor(Math.random() * (99 - 18 + 1) + 18)}`;
-
-    students.push({
-      first,
-      last,
-      github,
-      assignments,
-    });
-  }
 
   // Add students to the collection and await the results
-  await Student.collection.insertMany(students);
-
+  await user.insertMany([
+    { userName: "skylar_martin", email: "user1@gmail.com" },
+    { userName: "natalie_ayrton", email: "user2@gmail.com" },
+    { userName: "colorado_guy", email: "user3@gmail.com" },
+    { userName: "cleavland_cutter", email: "user4@gmail.com" },
+  ]).then((user, err) => {
+    if (err) throw err;
+    console.log("users data has been inserted.");
+  });
   // Add courses to the collection and await the results
   await Course.collection.insertOne({
     courseName: 'UCLA',
@@ -45,7 +31,7 @@ connection.once('open', async () => {
   });
 
   // Log out the seed data to indicate what should appear in the database
-  console.table(students);
+  console.table(user);
   console.info('Seeding complete! 🌱');
   process.exit(0);
 });
