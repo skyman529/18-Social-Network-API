@@ -1,33 +1,6 @@
 const { Schema, model } = require('mongoose');
 const moment = require("moment");
-
-// Schema to create a thoughts model
-const reactionSchema = new Schema(
-  {
-    reactionId: {},
-    reactionBody: {
-      type: String,
-      required: true,
-      minLength: 1,
-      maxLength: 280,
-    },
-    userName: {
-      type: String,
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-      get: (date) => {
-        const formatDate = moment(date).format("MM/DD/YYYY");
-        return formatDate;  
-    },
-  },    
-    toJSON: {
-      virtuals: true,
-    },
-    id: false,
-  }
-);
+const reactionSchema = require("./reaction");
 
 const thoughtSchema = new Schema(
   {
@@ -45,7 +18,7 @@ const thoughtSchema = new Schema(
         return formatDate;
   },
 },
-  username: {
+  name: {
     type: String,
     required: true,
   },

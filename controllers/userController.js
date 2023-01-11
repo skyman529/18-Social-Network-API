@@ -2,7 +2,7 @@ const { user, thought } = require("../models");
 
 module.exports = {
   // GET all users
-  getAllusers(req, res) {
+  getAllUsers(req, res) {
     user.find()
       .populate({ path: "thoughts", select: "-__v" })
       .then(async (users) => {
@@ -17,7 +17,7 @@ module.exports = {
       });
   },
   // GET a single user
-  getuser(req, res) {
+  getUser(req, res) {
     user.findOne({ _id: req.params.userId })
       .populate({ path: "thoughts", select: "-__v" })
       .populate({ path: "friends", select: "-__v" })
@@ -32,13 +32,13 @@ module.exports = {
       });
   },
   // Create a new user
-  createuser(req, res) {
+  createUser(req, res) {
     user.create(req.body)
       .then((user) => res.json(user))
       .catch((err) => res.status(500).json(err));
   },
   // Update user by ID
-  updateuser(req, res) {
+  updateUser(req, res) {
     console.log("updating user.");
     console.log(req.body);
     user.findOneAndUpdate(
@@ -57,7 +57,7 @@ module.exports = {
       });
   },
   // Delete users by ID
-  deleteuser(req, res) {
+  deleteUser(req, res) {
     user.findOneAndDelete({ _id: req.params.userId })
       .then((user) =>
         !user

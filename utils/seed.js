@@ -15,21 +15,15 @@ connection.once('open', async () => {
 
   // Add students to the collection and await the results
   await user.insertMany([
-    { userName: "skylar_martin", email: "user1@gmail.com" },
-    { userName: "natalie_ayrton", email: "user2@gmail.com" },
-    { userName: "colorado_guy", email: "user3@gmail.com" },
-    { userName: "cleavland_cutter", email: "user4@gmail.com" },
+    { name: "skylar_martin", email: "user1@gmail.com" },
+    { name: "natalie_ayrton", email: "user2@gmail.com" },
+    { name: "colorado_guy", email: "user3@gmail.com" },
+    { name: "cleavland_cutter", email: "user4@gmail.com" },
   ]).then((user, err) => {
     if (err) throw err;
     console.log("users data has been inserted.");
   });
-  // Add courses to the collection and await the results
-  await Course.collection.insertOne({
-    courseName: 'UCLA',
-    inPerson: false,
-    students: [...students],
-  });
-
+ 
   // Log out the seed data to indicate what should appear in the database
   console.table(user);
   console.info('Seeding complete! 🌱');
