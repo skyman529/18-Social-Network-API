@@ -1,13 +1,13 @@
-const { thoughts, users } = require('../models');
+const { thought, users } = require('../models');
 
 module.exports = {
   // GET all thoughts
   getallthoughts(req, res) {
     thought.find()
       .populate({ path: "reactions", select: "-__v" })
-      .then(async (thoughts) => {
+      .then(async (thought) => {
         const thoughtObj = {
-          thoughts,
+          thought,
         };
         return res.json(thoughtObj);
       })
@@ -31,17 +31,17 @@ module.exports = {
   createthought(req, res) {
     thought.create(req.body)
       .then((thought) => {
-        User.findOneAndUpdate(
+        users.findOneAndUpdate(
           { _id: req.body.userId },
           { $push: { thoughts: thought._id } }, 
           { new: true }
-        ).then((user) => {
-          console.log(user);
-          !user
+        ).then((users) => {
+          console.log(users);
+          !users
             ? res
                 .status(404)
                 .json({ message: "Thought created, but no user with this ID." })
-            : res.json(user);
+            : res.json(users);
         });
       })
 
@@ -57,9 +57,9 @@ module.exports = {
       .then((thought) =>
         !thought
           ? res.status(404).json({ message: "No thought with that ID." })
-          : User.findOneAndUpdate(
+          : users.findOneAndUpdate(
               { username: thought.username },
-              { $pull: { thoughts: thought._id } }, 
+              { $pull: { thought: thought._id } }, 
               { new: true }
             ).then(() => res.json({ message: "Thought deleted." }))
       )
